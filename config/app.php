@@ -194,6 +194,12 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\CategoryRepositoryServiceProvider::class,
+        App\Providers\UserRepositoryServiceProvider::class,
+        App\Providers\GameRepositoryServiceProvider::class,
+        App\Providers\PermissionRepositoryServiceProvider::class,
+
+
 
     ],
 

@@ -2,18 +2,30 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\GameController;
+use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\API\PermissionController;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::apiResource('categories', CategoryController::class);
+Route::apiResource('games', GameController::class);
+Route::apiResource('permissions', PermissionController::class);
+
+
+Route::group(['prefix' => 'auth'], function () {
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('register', [AuthController::class, 'register']);
+    Route::post('edite', [AuthController::class, 'editProfile']);
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::get('refresh', [AuthController::class, 'refresh']);
+    Route::get('profile', [AuthController::class, 'getProfile']);
+    Route::get('delete', [AuthController::class, 'deleteProfile']);
+    Route::get('activate', [AuthController::class, 'activateAccount']);
+    Route::post('forgotPassword', [AuthController::class, 'forgotPassword']);
+    Route::get('ressetpassword', [AuthController::class, 'ressetPassword']);
+    Route::post('resendcode', [AuthController::class, 'resendActivationMail']);
+
+
 });
+
