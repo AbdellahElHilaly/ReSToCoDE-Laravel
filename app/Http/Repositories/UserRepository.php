@@ -22,10 +22,7 @@ class UserRepository  implements UserRepositoryInterface {
 
     public function register($attributes , $token  , $code)
     {
-        // store token in database
-        // serialize location and network
-        $token['location']  = serialize($token['location']);
-        $token['network']  = serialize($token['network']);
+
         // add code to token
         $token['code'] = $code;
 
@@ -47,10 +44,22 @@ class UserRepository  implements UserRepositoryInterface {
     {
         if (Auth::attempt($credentials)) {
 
-            // $user = User::where('email' , $credentials['email'])->first();
-            // get user woth role
 
-            $user = User::with('rule')->where('email' , $credentials['email'])->first();
+            // get user with rule and token
+
+            $user = User::with('rule' , 'token')->where('email' , $credentials['email'])->first();
+
+            // token validation
+
+            $deviceTrust =  $this->checkToken($user->token);
+
+            if($deviceTrust != 'ok')
+            {
+                $this->resendActivationMail($user->email);
+                $data['error-message'] = $deviceTrust;
+                $data['error-data'] = ['name' => $user->name , 'email' => $user->email];
+                return $data;
+            }
 
             if(!$this->checkActivationAccount($user))
             {
@@ -63,6 +72,10 @@ class UserRepository  implements UserRepositoryInterface {
             $user = $this->getAuthUser();
             $token = Auth::login($user);
 
+            // store token in httpOnly cookie for 15 menutes:
+
+            Cookie::queue('token', $token, 15);
+
             return new UserResource(['user' => $user, 'token' => $token]);
         }
         throw new \Exception('SYSTEM_CLIENT_ERROR : Your Password is incorrect, please enter a valid password');
@@ -71,8 +84,26 @@ class UserRepository  implements UserRepositoryInterface {
 
     public function updateProfile($attributes)
     {
-        $attributes['password'] = Hash::make($attributes['password']);
         $user = $this->getAuthUser();
+
+        // compare user password with $attributes['current_password']
+
+        if(!Hash::check($attributes['current_password'], $user->password))
+        {
+            throw new \Exception('SYSTEM_CLIENT_ERROR : Your current password is incorrect, please enter a valid password');
+        }
+
+        //remove current_password from $attributes
+
+        unset($attributes['current_password']);
+
+        if(isset($attributes['password']))
+            $attributes['password'] = Hash::make($attributes['password']);
+        else
+            $attributes['password'] = $user->password;
+
+        // save old email
+        $attributes['email'] = $user->email;
         $user->update($attributes);
         $data['user'] = $user;
         $data['token'] = Auth::login($user);
@@ -92,6 +123,7 @@ class UserRepository  implements UserRepositoryInterface {
         $data['token'] = Auth::login($user);
         return new UserResource($data);
     }
+
 
     public function myGames()
     {
@@ -139,16 +171,7 @@ class UserRepository  implements UserRepositoryInterface {
             throw new \Exception("SYSTEM_CLIENT_ERROR : Your activation code is not correct. Please check your email and enter the correct code.");
 
         if($userToken->expires_at < now()){
-            // generet new token and send it to user for activation again
-            $code = $this->generateVerificationCode();
-            $userToken->code = $code;
-            $userToken->expires_at = now()->addMinutes(5);
-            $userToken->save();
-            $mailCode = $this->generateMailCode($token_id , $code);
-
-
-            $mail = new RegisterVerification($user , $mailCode);
-            $mail->sendMail();
+            $this->resendActivationMail($user->email);
 
             throw new \Exception("SYSTEM_CLIENT_ERROR : Your activation code is expired. Please check your email and enter the new code.");
         }
@@ -171,10 +194,38 @@ class UserRepository  implements UserRepositoryInterface {
 
     }
 
+    public function trushDevice($token_id , $code){
+
+        $userToken = Token::find($token_id);
+        $user = User::where('token_id', $token_id)->first();
+
+        if($userToken->code != $code)
+            throw new \Exception("SYSTEM_CLIENT_ERROR : Your activation code is not correct. Please check your email and enter the correct code.");
+
+        if($userToken->expires_at < now()){
+            $this->resendActivationMail($user->email);
+            throw new \Exception("SYSTEM_CLIENT_ERROR : Your activation code is expired. Please check your email and enter the new code.");
+        }
+
+        // generate new token
+
+        $newToken = $this->generateToken();
+
+        // update userToken by new token
+
+        $userToken->update($newToken);
+
+        return null;
+    }
+
     public function forgotPassword($attributes , $code){
         $email = $attributes['email'];
-        $user = User::where('email', $email)->first();
 
+        $auth_email = $this->getAuthUser()->email;
+        if($auth_email != $email)
+            throw new \Exception("SYSTEM_CLIENT_ERROR : Your email is not correct!  Please enter your correct email.");
+
+        $user = User::where('email', $email)->first();
         if($user){
             $token = User::find($user->id)->token;
             $token->code = $code;
@@ -231,13 +282,6 @@ class UserRepository  implements UserRepositoryInterface {
         // get user by email
         $user = User::where('email', $userMail)->first();
 
-        /*
-
-        the correct email is : lufy2024@gmail.com
-        but if i enter this email : luFy2024@gmail.com ,  it works and send me a new activation code
-        why ??
-
-        */
 
         if(!$user)
             throw new \Exception("SYSTEM_CLIENT_ERROR : We can't find any user with this email. Please check your email and try again.");

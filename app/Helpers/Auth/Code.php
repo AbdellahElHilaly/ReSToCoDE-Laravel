@@ -21,9 +21,6 @@ Trait  Code
 
         return $mailCode;
 
-
-
-
     }
 
 

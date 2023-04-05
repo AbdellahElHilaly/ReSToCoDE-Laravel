@@ -38,7 +38,7 @@ class AuthController extends Controller
     public function __construct(UserRepositoryInterface $userRepository)
     {
         $this->userRepository = $userRepository;
-        $this->middleware('auth:api')->except(['register', 'login', 'activateAccount', 'forgotPassword', 'ressetPassword' , 'resendActivationMail']);
+        $this->middleware('auth:api')->except(['register', 'login', 'activateAccount', 'forgotPassword', 'ressetPassword' , 'resendActivationMail' ,'trushDevice']);
         $this->middleware('alredy.auth')->only(['register','login']);
     }
 
@@ -150,6 +150,23 @@ class AuthController extends Controller
             $this->userRepository->activateAccount($token_id , $code);
 
             return $this->apiResponse(null, true, 'Account activated successfully', Response::HTTP_OK);
+        } catch (\Exception $e) {
+            return $this->handleException($e);
+        }
+    }
+
+    public function trushDevice(ActivationRequest $request)
+    {
+        try {
+
+            $data = $request->validated();
+
+            $token_id = $data['left'];
+            $code = $data['right'];
+
+            $this->userRepository->trushDevice($token_id , $code);
+
+            return $this->apiResponse(null, true, 'Device trushed successfully, please login again', Response::HTTP_OK);
         } catch (\Exception $e) {
             return $this->handleException($e);
         }

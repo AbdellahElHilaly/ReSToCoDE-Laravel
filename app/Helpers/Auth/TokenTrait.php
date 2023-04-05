@@ -68,20 +68,15 @@ Trait  TokenTrait
 
 
         if(isset($ipInformations['location'])){
-            $location = [
-                "country" => $ipInformations['location']['country'],
-                "region" => $ipInformations['location']['region'],
-                "city" => $ipInformations['location']['city'],
-            ];
+            $location = $ipInformations['location']['country'] . ' - ' . $ipInformations['location']['region'] . ' - ' . $ipInformations['location']['city'];
         }else $location = "no data";
 
         if(isset($ipInformations['as']))
-            $network = [
-                "name" => $ipInformations['as']['name'],
-                "route" => $ipInformations['as']['route'],
-                "domain" => $ipInformations['as']['domain'],
-            ];
-            else $network = "no data";
+
+            $network = $ipInformations['as']['name'] . ' - ' . $ipInformations['as']['route'] . ' - ' . $ipInformations['as']['domain'];
+
+
+        else $network = "no data";
 
 
         $token = [
@@ -99,29 +94,30 @@ Trait  TokenTrait
 
 
     public function checkToken($userToken){
-
-
-
+        $token_id = $userToken->id;
         $token = $this->generateToken();
 
-        if($userToken['ip'] != $token['ip']) return 'ip not match enter your password to active your account';
+        $message = 'ok';
 
-        if($userToken['device'] != $token['device']) return 'device not match enter your password to active your account';
+        if($userToken['ip'] != $token['ip'])
+            $message = "IP not match you should verify your account code sended to your email";
 
-        if($userToken['platform'] != $token['platform']) return 'platform not match enter your password to active your account';
+        else if($userToken['device'] != $token['device'])
+            $message = "Device not match you should verify your account code sended to your email";
 
-        if($userToken['browser'] != $token['browser']) return 'browser not match enter your password to active your account';
+        else if($userToken['platform'] != $token['platform'])
+            $message = "Platform not match you should verify your account code sended to your email";
 
+        else if($userToken['browser'] != $token['browser'])
+            $message = "Browser not match you should verify your account code sended to your email";
 
-        $userLocation = unserialize($userToken['location']);
-        if($token['location'] != $userLocation) return 'location not match enter your password to active your account';
+        else if($token['location'] != $userToken['location'])
+            $message = "Location not match you should verify your account code sended to your email";
 
-        $userNetwork = unserialize($userToken['network']);
-        if($token['network'] != $userNetwork) return 'network not match enter your password to active your account';
+        else if($token['network'] != $userToken['network'])
+            $message = "Network not match you should verify your account code sended to your email";
 
-
-
-
+        return $message;
     }
 
 }
