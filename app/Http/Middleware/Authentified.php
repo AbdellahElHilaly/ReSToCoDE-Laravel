@@ -16,7 +16,7 @@ class Authentified
     public function handle(Request $request, Closure $next): Response
     {
         if(Auth::check()){
-            return $this->apiResponse(null, false, 'You are already logged in', Response::HTTP_BAD_REQUEST);
+            return $this->apiResponse(null, false, 'You are already logged in', 100);
         }
         return $next($request);
     }

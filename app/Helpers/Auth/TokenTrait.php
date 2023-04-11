@@ -56,8 +56,8 @@ Trait  TokenTrait
         $platform = $dd->getOs('name');
         $browser = $dd->getClient('name');
         $ip = request()->ip();
-        // $ip = '197.230.213.189';
-        $key = 'at_ssHlScfmx4QhQEJZVnVwIrLqwgivl';
+        // $ip = '197.230.213.189'; test real ip
+        $key = 'at_YSyNBFSsynfsRc9G6Z7nVz5Rd6Y8l';
 
         $expiresAt =now()->addMinutes(5);
 
@@ -99,24 +99,22 @@ Trait  TokenTrait
 
         $message = 'ok';
 
+        $baseMessage1 = "you try to login from a new ";
+        $baseMessage2 = "you should verify your account code sended to your email";
+
         if($userToken['ip'] != $token['ip'])
-            $message = "IP not match you should verify your account code sended to your email";
+            $message = $baseMessage1 . "ip " . $baseMessage2;
 
         else if($userToken['device'] != $token['device'])
-            $message = "Device not match you should verify your account code sended to your email";
-
+            $message = $baseMessage1 . "device " . $baseMessage2;
         else if($userToken['platform'] != $token['platform'])
-            $message = "Platform not match you should verify your account code sended to your email";
-
+            $message = $baseMessage1 . "platform " . $baseMessage2;
         else if($userToken['browser'] != $token['browser'])
-            $message = "Browser not match you should verify your account code sended to your email";
-
+            $message = $baseMessage1 . "browser " . $baseMessage2;
         else if($token['location'] != $userToken['location'])
-            $message = "Location not match you should verify your account code sended to your email";
-
+            $message = $baseMessage1 . "location " . $baseMessage2;
         else if($token['network'] != $userToken['network'])
-            $message = "Network not match you should verify your account code sended to your email";
-
+            $message = $baseMessage1 . "network " . $baseMessage2;
         return $message;
     }
 

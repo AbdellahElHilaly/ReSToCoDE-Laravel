@@ -47,6 +47,11 @@ class User extends Authenticatable Implements JWTSubject
         return $this->hasMany(Game::class);
     }
 
+    public function meals()
+    {
+        return $this->hasMany(Meal::class);
+    }
+
     public function permissions()
     {
         return $this->hasMany(Permission::class);
@@ -60,7 +65,7 @@ class User extends Authenticatable Implements JWTSubject
     public function token()
     {
         return $this->belongsTo(Token::class);
-    }	
+    }
 
 
 }

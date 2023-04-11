@@ -83,7 +83,7 @@ class AuthController extends Controller
             $result = $this->userRepository->login($credentials);
 
             if(isset($result['error-message']))
-                return $this->apiResponse($result['error-data'], false, $result['error-message'], Response::HTTP_UNAUTHORIZED);
+                return $this->apiResponse($result['error-data'], false, $result['error-message'],  $result['error-code']);
 
             return $this->apiResponse($result, true, 'Successfully logged in', Response::HTTP_OK);
         } catch (\Exception $e) {
@@ -181,13 +181,13 @@ class AuthController extends Controller
                 $result = $this->userRepository->forgotPassword($attributes , $code);
 
                 if($result){
-
                     $token_id = $result->token_id;
                     $mailCode = $this->generateMailCode($token_id , $code);
                     $mail = new ResetPasswordMail($result , $mailCode);
                     $mail->sendMail();
-                    $userName = $result->name;
-                    return $this->apiResponse($userName, true, 'Email sent successfully, please check your email to reset your password', Response::HTTP_OK);
+                    $data['name'] = $result->name;
+                    $data['email'] = $result->email;
+                    return $this->apiResponse($data, true, 'Email sent successfully, please check your email to reset your password', 100);
 
                 }
 
