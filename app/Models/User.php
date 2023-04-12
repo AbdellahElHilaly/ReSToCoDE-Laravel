@@ -51,6 +51,10 @@ class User extends Authenticatable Implements JWTSubject
     {
         return $this->hasMany(Meal::class);
     }
+    public function menus()
+    {
+        return $this->hasMany(Menu::class);
+    }
 
     public function permissions()
     {

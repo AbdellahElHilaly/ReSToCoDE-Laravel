@@ -44,7 +44,7 @@ trait DeveMoodExeption
 
             case $e instanceof ModelNotFoundException:
                 $modelName = strtolower(class_basename($e->getModel()));
-                return $this->apiResponse($this->handelMessage($e) ,  false, 'Database ERROR : this '.$modelName.' not found!   /// ' , Response::HTTP_NOT_FOUND);
+                return $this->apiResponse($this->handelMessage($e) ,  false, 'Database ERROR : this '.$modelName.' not found !' , Response::HTTP_NOT_FOUND);
             case $e instanceof RelationNotFoundException:
                 return $this->apiResponse($this->handelMessage($e) ,  false, 'The requested resource was not found :  ', Response::HTTP_NOT_FOUND);
             case $e instanceof InvalidCastException:

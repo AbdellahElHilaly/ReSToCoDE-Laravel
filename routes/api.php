@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\GameController;
 use App\Http\Controllers\Api\MealController;
+use App\Http\Controllers\Api\MenuController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\API\PermissionController;
 
@@ -18,6 +19,7 @@ Route::get('/test', function () {
 Route::apiResource('categories', CategoryController::class);
 Route::apiResource('games', GameController::class);
 Route::apiResource('meals', MealController::class);
+Route::apiResource('menus', MenuController::class);
 Route::apiResource('permissions', PermissionController::class);
 
 

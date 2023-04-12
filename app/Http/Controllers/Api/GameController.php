@@ -123,7 +123,7 @@ class GameController extends Controller
     public function destroy(string $id)
     {
         try {
-            if ($id == "clear") {
+            if ($id == "all") {
                 $this->gameRepository->clear();
                 return $this->apiResponse(null, true, 'All Games have been deleted successfully', Response::HTTP_OK);
             } else {

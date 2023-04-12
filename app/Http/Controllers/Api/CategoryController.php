@@ -79,7 +79,7 @@ class CategoryController extends Controller
     public function destroy(string $id)
     {
         try {
-            if ($id == "clear") {
+            if ($id == "all") {
                 $this->categoryRepository->clear();
                 return $this->apiResponse(null, true, 'All categories have been deleted successfully', Response::HTTP_OK);
             } else {

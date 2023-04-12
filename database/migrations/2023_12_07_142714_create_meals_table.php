@@ -12,7 +12,7 @@ return new class extends Migration
         Schema::create('meals', function (Blueprint $table) {
 
             $table->id();
-            $table->string('name');
+            $table->string('name')->uniqid();
             $table->text('description');
             $table->unsignedBigInteger('user_id');
             $table->integer('quantity');

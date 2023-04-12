@@ -28,41 +28,25 @@ class PermissionController extends Controller
 
     public function index()
     {
-
         try {
-
             $permissions = $this->permissionRepository->getPermissions();
-
             $permissions = $this->handelPermissionsData($permissions);
-
             return $this->apiResponse($permissions, true, "Successfully retrieved "  , Response::HTTP_OK);
-
-
         } catch (\Exception $e) {
             return $this->handleException($e);
         }
-
     }
-
 
     public function store(PermissionStoreRequest $request)
     {
         try {
-
-
-
             $attributes = $request->validated();
-
             $permissions = $this->permissionRepository->store($attributes);
-
             $permissions = $this->handelPermissionsData($permissions);
-
             return $this->apiResponse($permissions, true, "Permission created successfully" , Response::HTTP_CREATED);
-
         } catch (\Exception $e) {
             return $this->handleException($e);
         }
-
     }
 
 

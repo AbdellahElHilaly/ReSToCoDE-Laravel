@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Facade;
+use App\Providers\MenuRepositoryServiceProvider;
 
 return [
 
@@ -195,6 +196,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\CategoryRepositoryServiceProvider::class,
+        App\Providers\MealRepositoryServiceProvider::class,
+        MenuRepositoryServiceProvider::class,
         App\Providers\UserRepositoryServiceProvider::class,
         App\Providers\GameRepositoryServiceProvider::class,
         App\Providers\PermissionRepositoryServiceProvider::class,

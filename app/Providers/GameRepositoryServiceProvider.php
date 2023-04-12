@@ -17,3 +17,4 @@ class GameRepositoryServiceProvider extends ServiceProvider
     {
     }
 }
+

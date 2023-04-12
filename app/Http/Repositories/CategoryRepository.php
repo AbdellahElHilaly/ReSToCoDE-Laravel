@@ -42,13 +42,9 @@ class CategoryRepository implements CateroyRepositoryInterface{
         return new CategoryResource($category);
     }
 
-
     public function checkEmpty(){
         if (Category::count() === 0) {
             throw new \Exception('Category table is already empty');
         }
     }
-
-
 }
-
