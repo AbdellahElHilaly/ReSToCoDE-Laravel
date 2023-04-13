@@ -53,6 +53,9 @@ class MealRepository implements MealRepositoryInterface{
     {
         $attributes['user_id'] = $this->getAuthUser()->id;
         $meal = Meal::findOrFail($id);
+        if (isset($attributes['image'])) {
+            $attributes['image'] = $this->uploadImage($attributes['image']);
+        }
         $meal->update($attributes);
         return new MealResource($meal);
     }

@@ -80,16 +80,7 @@ class UsersTableSeeder extends Seeder
 
         $this->addPermissionToUser($developer2_id, 1  , [1 , 2 , 3 , 4 , 5]);
 
-        /*
-        $table->string('ip');
-            $table->string('device')->nullable();
-            $table->string('platform')->nullable();
-            $table->string('browser')->nullable();
-            $table->string('expires_at');
-            $table->string('location')->nullable();
-            $table->string('network')->nullable();
-            $table->string('code')->nullable();
-            */
+
         $token = [
             'ip' => '127.0.0.1',
             'device' => '',
@@ -100,14 +91,7 @@ class UsersTableSeeder extends Seeder
             'network' => 'no data',
             'code' => '12345',
         ];
-
         Token::create($token);
-
-
-
-
-
-
         $admin = [
             'name' => 'abdellah',
             'email' => 'admin@gmail.com',
@@ -115,6 +99,31 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('1234567890'),
             'email_verified_at' => '2021-05-01 00:00:00',
             'token_id' => '1',
+        ];
+
+        $admin_id = User::create($admin)->id;
+
+        $this->addPermissionToUser($admin_id,  1  , [1 , 2 , 5]);
+        $this->addPermissionToUser($admin_id,  2 , [1 , 2 , 3 , 4 , 5]);
+
+        $token = [
+            'ip' => '127.0.0.1',
+            'device' => 'desktop',
+            'platform' => 'Windows',
+            'browser' => 'Chrome',
+            'expires_at' => '2023-04-13 11:20:02',
+            'location' => 'ZZ -  - ',
+            'network' => 'no data',
+            'code' => '12345',
+        ];
+        Token::create($token);
+        $admin = [
+            'name' => 'abdellah',
+            'email' => 'admin2@gmail.com',
+            'rule_id' => 3,
+            'password' => bcrypt('1234567890'),
+            'email_verified_at' => '2021-05-01 00:00:00',
+            'token_id' => '2',
         ];
 
         $admin_id = User::create($admin)->id;

@@ -25,7 +25,6 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users');
 
             // don't repeat yourself (row) unique
-
             $table->unique(['user_id', 'pcontroller_id', 'pmethode_id']);
 
         });

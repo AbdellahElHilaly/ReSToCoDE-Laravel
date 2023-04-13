@@ -14,7 +14,7 @@ class MenuRepository implements MenuRepositoryInterface{
 
     public function all()
     {
-        return MenuResource::collection(Menu::all());
+        return MenuResource::collection(Menu::with('comments')->get());
     }
 
     public function show($id)
@@ -27,9 +27,17 @@ class MenuRepository implements MenuRepositoryInterface{
     {
         $auth_id = $this->getAuthUser()->id; // frome hepler
         $attributes['user_id'] = $auth_id;
-        $menus = Menu::create($attributes);
-        return new MenuResource($menus);
+        // get meal_id array from request
+        $meal_ids = $attributes['meal_ids'];
+        // remove meal_ids from attributes
+        unset($attributes['meal_ids']);
+        // create menu
+        $menu = Menu::create($attributes);
+        // i have menu_meal table in database  , attach meal_ids to menu
+        $menu->meals()->attach($meal_ids);
+        return new MenuResource($menu);
     }
+
 
 
     public function clear()

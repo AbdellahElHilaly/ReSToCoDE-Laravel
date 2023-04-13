@@ -20,5 +20,10 @@ class Meal extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    
+    public function menus()
+    {
+        return $this->belongsToMany(Menu::class);
+    }
+
+
 }

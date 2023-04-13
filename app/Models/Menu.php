@@ -25,4 +25,12 @@ class Menu extends Model
         return $this->hasMany(FeedBack::class, 'menu_id');
     }
 
+    public function meals()
+    {
+        return $this->belongsToMany(Meal::class);
+    }
+
 }
+
+//  cmd for make many to many relationship between two Menu and Meal
+// php artisan make:migration create_menu_meal_table --create=menu_meal

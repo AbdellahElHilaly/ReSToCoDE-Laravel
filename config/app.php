@@ -197,16 +197,14 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\CategoryRepositoryServiceProvider::class,
         App\Providers\MealRepositoryServiceProvider::class,
-        MenuRepositoryServiceProvider::class,
+        App\Providers\MenuRepositoryServiceProvider::class,
+        App\Providers\CommentRepositoryServiceProvider::class,
+        App\Providers\FeedBackRepositoryServiceProvider::class,
         App\Providers\UserRepositoryServiceProvider::class,
         App\Providers\GameRepositoryServiceProvider::class,
         App\Providers\PermissionRepositoryServiceProvider::class,
 
-
-
         CloudinaryLabs\CloudinaryLaravel\CloudinaryServiceProvider::class,
-
-
     ],
 
     /*

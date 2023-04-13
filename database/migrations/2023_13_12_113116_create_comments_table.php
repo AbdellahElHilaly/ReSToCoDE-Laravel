@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
             $table->string('body');
-            $table->dateTime('date');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('menu_id');
             $table->timestamps();

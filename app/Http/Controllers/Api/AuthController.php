@@ -78,10 +78,7 @@ class AuthController extends Controller
         try {
             $credentials = $request->validated();
 
-
-
             $result = $this->userRepository->login($credentials);
-
             if(isset($result['error-message']))
                 return $this->apiResponse($result['error-data'], false, $result['error-message'],  $result['error-code']);
 

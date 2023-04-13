@@ -15,6 +15,8 @@ class MenuStoreRequest extends FormRequest
         $rules = [
             'name' => 'required|string|min:3|max:50',
             'description' => 'required|string|min:10|max:255',
+            'meal_ids' => 'required|array',
+            'meal_ids.*' => 'required|distinct|exists:meals,id',
             'date' => [
                 'required',
                 'date',
@@ -23,6 +25,7 @@ class MenuStoreRequest extends FormRequest
                 'before_or_equal:' . date('Y-m-d', strtotime('+1 year')),
             ],
         ];
+
 
         if($this->timeLate()) {
             $rules['time'] = 'required';
