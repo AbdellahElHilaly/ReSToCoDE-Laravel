@@ -1,66 +1,40 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# ReSToCoDE
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Système de réservation en ligne pour la cantine scolaire YouCode.
 
-## About Laravel
+Ce cahier des charges décrit les exigences pour le développement d'un système de réservation en ligne pour la cantine scolaire. Le système permettra aux élèves et au personnel de choisir leurs repas pour la semaine le lundi matin. Il permettra également aux étudiants de suggérer des repas spéciaux s'ils ne sont pas satisfaits du menu proposé, de noter les plats et de laisser des commentaires.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## I. Interface utilisateur
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+-   Une page d'accueil qui affiche des photos de la cantine et une partie du menu pour les visiteurs.
+-   Une page de menu qui affiche le menu de la semaine pour que les élèves et le personnel puissent le consulter et réserver.
+-   Une page de demande de repas spécial pour que les élèves puissent soumettre des demandes pour des repas qui ne sont pas sur le menu.
+-   Une page d'évaluation et de commentaires des repas pour que les élèves puissent évaluer et commenter les repas une fois qu'ils ont été servis.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## II. Comptes d'utilisateurs
 
-## Learning Laravel
+-   Deux pages d'inscription distinctes, l'une pour les utilisateurs (élèves et personnel) et l'autre pour les administrateurs.
+-   Les utilisateurs et les administrateurs devront fournir leur nom, adresse e-mail, mot de passe et une copie de leur carte scolaire pour s'inscrire.
+-   Une fois que le développeur a vérifié leur identité, un code d'activation sera envoyé à l'adresse e-mail de l'utilisateur.
+-   Les utilisateurs pourront se connecter pour consulter et réserver, demander des repas spéciaux, évaluer et commenter les repas.
+-   Les administrateurs pourront se connecter pour consulter et gérer les commandes de repas et les statistiques, télécharger des informations et des images sur les repas, et consulter les évaluations et les commentaires des élèves.
+-   Les utilisateurs pourront se connecter pour consulter et réserver, demander des repas spéciaux, évaluer et commenter les repas, et recevoir un ticket par e-mail après avoir réservé.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## III. Fonctionnalités d'administration
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+-   Un tableau de bord pour l'administrateur pour consulter la liste des repas et apporter des modifications (ajout ou limitation des repas).
+-   Une page pour l'administrateur pour consulter et gérer les commandes de repas et les statistiques.
+-   Une page pour l'administrateur pour télécharger des informations et des images sur les repas.
+-   Une page pour l'administrateur pour consulter les évaluations et les commentaires des élèves.
+-   Une page pour l'administrateur pour gérer les comptes utilisateurs (activation ou désactivation).
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## IV. Base de données
 
-## Laravel Sponsors
+-   Une base de données qui stocke toutes les informations liées au système (comptes d'utilisateurs, commandes de repas, informations sur les repas, évaluations et commentaires).
+-   La base de données doit être sécurisée et accessible uniquement aux utilisateurs autorisés.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+## V. Exigences techniques
 
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+-   Le système doit être réactif et accessible sur différents appareils (ordinateur de bureau, tablette, mobile).
+-   Le système doit être compatible avec différents navigateurs web.
+-   Le système doit être développé
