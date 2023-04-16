@@ -1,5 +1,6 @@
 # ReSToCoDE
-
+##conceptio : https://app.diagrams.net/?src=about#G1JtPQDScpF3n1uaMTwXScEdr6sHNucVhz
+##maket : https://www.figma.com/file/8gAaJchS5VAkMNoWOUpSxp/ReSToCoDE?node-id=0-1&t=W97QK9VDCruaZg1Q-0
 ## Système de réservation en ligne pour la cantine scolaire YouCode.
 
 Ce cahier des charges décrit les exigences pour le développement d'un système de réservation en ligne pour la cantine scolaire. Le système permettra aux élèves et au personnel de choisir leurs repas pour la semaine le lundi matin. Il permettra également aux étudiants de suggérer des repas spéciaux s'ils ne sont pas satisfaits du menu proposé, de noter les plats et de laisser des commentaires.
