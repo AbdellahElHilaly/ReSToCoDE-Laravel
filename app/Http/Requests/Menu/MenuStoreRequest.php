@@ -15,8 +15,7 @@ class MenuStoreRequest extends FormRequest
         $rules = [
             'name' => 'required|string|min:3|max:50',
             'description' => 'required|string|min:10|max:255',
-            'meal_ids' => 'required|array',
-            'meal_ids.*' => 'required|distinct|exists:meals,id',
+            'quantity' => 'integer|min:1|max:120',
             'date' => [
                 'required',
                 'date',

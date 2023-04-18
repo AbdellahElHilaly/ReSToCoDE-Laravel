@@ -18,8 +18,8 @@ class FeedBackFactory extends Factory
     {
         return [
             'body' => $this->faker->numberBetween(1, 5),
-            'user_id' => rand(1, 4),
-            'menu_id' => rand(1, 12),
+            'user_id' => rand(1, 5),
+            'menu_id' => rand(1, 2),
         ];
     }
 }

@@ -47,7 +47,6 @@ class MealController extends Controller
         } catch (\Exception $e) {
             return $this->handleException($e);
         }
-
     }
 
 

@@ -12,6 +12,12 @@ class CategorySeeder extends Seeder
         $categories = [
 
             [
+                'name' => 'main-meal',
+                'description' => 'block 2 get from shef ,  only for 1 choise'
+            ],
+
+
+            [
                 'name' => 'bread',
                 'description' => 'block 0 , 1 choise'
             ],
@@ -23,11 +29,6 @@ class CategorySeeder extends Seeder
             [
                 'name' => 'appetizer',
                 'description' => 'block 1 ,  only for 1 choise'
-            ],
-
-            [
-                'name' => 'main meal',
-                'description' => 'block 2 get from shef ,  only for 1 choise'
             ],
 
             [

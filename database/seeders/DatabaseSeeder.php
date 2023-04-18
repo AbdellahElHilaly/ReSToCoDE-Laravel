@@ -25,9 +25,6 @@ class DatabaseSeeder extends Seeder
 
             UsersTableSeeder::class,
 
-
-            GamesTableSeeder::class,
-
             MenuSeeder::class,
 
             MealSeeder::class,

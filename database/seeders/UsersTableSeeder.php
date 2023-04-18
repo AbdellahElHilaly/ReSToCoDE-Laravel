@@ -38,25 +38,15 @@ class UsersTableSeeder extends Seeder
     {
 
         // create a guest user and get his id
-
         $guest = [
             'name' => 'Sybluse',
             'email' => 'syb@gmail.com',
             'rule_id' => 1,
             'password' => bcrypt('1234567880'),
         ];
-
         $guest_id = User::create($guest)->id;
-
-
         // add permissions to the guest user
-
-
         $this->addPermissionToUser($guest_id , 1  , [1 , 2]);
-
-
-
-
         $developer1 = [
             'name' => 'garena free fire',
             'email' => 'garena@gmail.com',
@@ -88,7 +78,7 @@ class UsersTableSeeder extends Seeder
             'browser' => 'Postman Desktop',
             'expires_at' => '2028-05-01 00:00:00',
             'location' => 'ZZ -  - ',
-            'network' => 'no data',
+            'network' => 'BBIL-AP - 96.0.0.0/3 - http://www.Airtel.in',
             'code' => '12345',
         ];
         Token::create($token);

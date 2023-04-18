@@ -14,8 +14,12 @@ class MealMenuSeeder extends Seeder
         $meals = Meal::all();
         $menus = Menu::all();
 
-        foreach ($meals as $meal) {
-            $meal->menus()->attach($menus->random(rand(1, 3))->pluck('id')->toArray());
-        }
+        $meals->each(function ($meal) use ($menus) {
+            $menus->each(function ($menu) use ($meal) {
+                $menu->meals()->attach($meal->id);
+            });
+        });
+
+
     }
 }

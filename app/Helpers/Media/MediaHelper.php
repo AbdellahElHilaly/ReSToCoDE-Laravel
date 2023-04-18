@@ -10,6 +10,8 @@ Trait MediaHelper
 
     public function uploadImage($file)
     {
+
+        
         // Calculate the hash of the file contents
         $hash = hash_file('md5', $file->getRealPath());
 
@@ -29,6 +31,8 @@ Trait MediaHelper
 
         // Return the URL of the uploaded file
         return url('media/images/' . $fileName);
+
+
     }
 
 }

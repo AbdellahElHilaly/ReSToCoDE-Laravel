@@ -31,6 +31,3 @@ class Menu extends Model
     }
 
 }
-
-//  cmd for make many to many relationship between two Menu and Meal
-// php artisan make:migration create_menu_meal_table --create=menu_meal

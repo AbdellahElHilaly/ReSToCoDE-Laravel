@@ -45,12 +45,10 @@ class UserRepository  implements UserRepositoryInterface {
         // check if user exist by email or name
         if (Auth::attempt($credentials)) {
             // get user with rule and token
-
             $user = User::with('rule' , 'token')->where('email' , $credentials['email'])->first();
-
             // token validation
-
             $deviceTrust =  $this->checkToken($user->token);
+            // $deviceTrust = 'ok';
 
             if($deviceTrust != 'ok')
             {

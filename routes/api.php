@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\MenuController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\FeedBackController;
+use App\Http\Controllers\Api\MealMenuController;
 use App\Http\Controllers\API\PermissionController;
 
 
@@ -23,6 +24,7 @@ Route::apiResource('categories', CategoryController::class);
 Route::apiResource('games', GameController::class);
 Route::apiResource('meals', MealController::class);
 Route::apiResource('menus', MenuController::class);
+Route::apiResource('mealsmenus', MealMenuController::class);
 Route::apiResource('comments', CommentController::class);
 Route::apiResource('feedBacks', FeedBackController::class);
 

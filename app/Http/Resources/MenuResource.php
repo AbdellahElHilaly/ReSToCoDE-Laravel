@@ -13,11 +13,17 @@ class MenuResource extends JsonResource
     public function toArray($request)
     {
         //  you can use "graph sql" to get what you want from comments
+
+        // get quantity from pivot table
+
+
         return [
             'id' => $this->id,
             'name' => $this->name,
             'chef' => $this->user->name,
             'description' => $this->description,
+            'quantity' => $this->quantity,
+            'image' => $this->image,
             'date' => Carbon::parse($this->date)->format('Y-m-d'),
             'meals' => MealResource::collection($this->meals),
             'comments' => CommentResource::collection($this->comments),

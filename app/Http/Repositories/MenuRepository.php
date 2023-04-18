@@ -14,31 +14,31 @@ class MenuRepository implements MenuRepositoryInterface{
 
     public function all()
     {
-        return MenuResource::collection(Menu::with('comments')->get());
+        return MenuResource::collection(Menu::with(['meals' => function($query){
+            $query->withPivot('quantity');
+        }])->get());
     }
+
+
 
     public function show($id)
     {
-        $menu = Menu::findOrFail($id);
-        return new MenuResource($menu);
+
+        $menuCheck = Menu::findOrFail($id);
+        return MenuResource::collection(Menu::with(['meals' => function($query){
+            $query->withPivot('quantity');
+        }])->where('id', $id)->get());
+
     }
 
     public function store($attributes)
     {
-        $auth_id = $this->getAuthUser()->id; // frome hepler
+        $auth_id = $this->getAuthUser()->id;
         $attributes['user_id'] = $auth_id;
-        // get meal_id array from request
-        $meal_ids = $attributes['meal_ids'];
-        // remove meal_ids from attributes
-        unset($attributes['meal_ids']);
-        // create menu
         $menu = Menu::create($attributes);
-        // i have menu_meal table in database  , attach meal_ids to menu
-        $menu->meals()->attach($meal_ids);
         return new MenuResource($menu);
+
     }
-
-
 
     public function clear()
     {

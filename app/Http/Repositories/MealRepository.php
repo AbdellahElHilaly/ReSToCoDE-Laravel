@@ -56,6 +56,7 @@ class MealRepository implements MealRepositoryInterface{
         if (isset($attributes['image'])) {
             $attributes['image'] = $this->uploadImage($attributes['image']);
         }
+
         $meal->update($attributes);
         return new MealResource($meal);
     }

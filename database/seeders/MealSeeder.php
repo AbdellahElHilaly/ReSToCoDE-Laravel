@@ -13,7 +13,7 @@ class MealSeeder extends Seeder
     public function run(): void
     {
         Meal::factory()
-            ->count(10)
+            ->count(20)
             ->create();
     }
 }
