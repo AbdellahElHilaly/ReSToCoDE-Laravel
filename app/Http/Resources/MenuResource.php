@@ -16,18 +16,29 @@ class MenuResource extends JsonResource
 
         // get quantity from pivot table
 
+        if (strpos($request->route()->getName(), 'MealMenu') !== false)
+            return [
+                'name' => $this->name,
+                'description' => $this->description,
+                'mealsNumber' => $this->meals->count(),
+                'quantity' => $this->quantity,
+                'date' => Carbon::parse($this->date)->format('Y-m-d'),
+            ];
+
 
         return [
             'id' => $this->id,
             'name' => $this->name,
             'chef' => $this->user->name,
             'description' => $this->description,
+            'mealsNumber' => $this->meals->count(),
             'quantity' => $this->quantity,
             'image' => $this->image,
             'date' => Carbon::parse($this->date)->format('Y-m-d'),
             'meals' => MealResource::collection($this->meals),
             'comments' => CommentResource::collection($this->comments),
             'feedbacks' => FeedBackResource::collection($this->feedbacks),
+            'test' => $request->route()->getName(),
         ];
     }
 

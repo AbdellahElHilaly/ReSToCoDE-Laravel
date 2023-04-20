@@ -5,6 +5,7 @@ use App\Models\User;
 use App\Models\Category;
 use App\Helpers\Auth\AuthHelper;
 use App\Helpers\Media\MediaHelper;
+use Illuminate\Support\Facades\DB;
 use App\Http\Resources\MenuResource;
 use App\Http\Interfaces\Repository\MenuRepositoryInterface;
 
@@ -37,19 +38,21 @@ class MenuRepository implements MenuRepositoryInterface{
         $attributes['user_id'] = $auth_id;
         $menu = Menu::create($attributes);
         return new MenuResource($menu);
-
     }
 
     public function clear()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         $this->checkEmpty();
         Menu::truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
     }
 
 
     public function destroy($id)
     {
         $menu = Menu::findOrFail($id);
+        $menu->meals()->detach();
         $menu->delete();
     }
 

@@ -7,13 +7,11 @@ use Illuminate\Database\Seeder;
 
 class MealSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+    
     public function run(): void
     {
         Meal::factory()
-            ->count(20)
+            ->count(5)
             ->create();
     }
 }

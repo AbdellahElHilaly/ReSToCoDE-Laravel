@@ -110,7 +110,7 @@ class MealController extends Controller
     public function destroy(string $id)
     {
         try {
-            if ($id == "all") {
+            if ($id === "all") {
                 $this->mealRepository->clear();
                 return $this->apiResponse(null, true, 'All Meals have been deleted successfully', Response::HTTP_OK);
             } else {

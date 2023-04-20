@@ -15,14 +15,16 @@ class MenuStoreRequest extends FormRequest
         $rules = [
             'name' => 'required|string|min:3|max:50',
             'description' => 'required|string|min:10|max:255',
-            'quantity' => 'integer|min:1|max:120',
-            'date' => [
-                'required',
-                'date',
-                'date_format:Y-m-d',
-                'after_or_equal:today',
-                'before_or_equal:' . date('Y-m-d', strtotime('+1 year')),
-            ],
+            'quantity' => 'required',
+            'date' => 'required',
+            // 'quantity' => 'integer|min:1|max:120',
+            // 'date' => [
+            //     'required',
+            //     'date',
+            //     'date_format:Y-m-d',
+            //     'after_or_equal:today',
+            //     'before_or_equal:' . date('Y-m-d', strtotime('+1 year')),
+            // ],
         ];
 
 

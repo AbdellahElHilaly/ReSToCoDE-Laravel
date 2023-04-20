@@ -47,17 +47,15 @@ class MealMenuController extends Controller
             $meal = Meal::findOrfail($data['meal_id']);
             $menu = Menu::findOrfail($data['menu_id']);
 
-            if($this->checkRowExists($meal, $menu)) {
-                $this->checkMainMealAfectImage($meal, $menu);
-                $meal->menus()->updateExistingPivot($menu, ['quantity' => $data['quantity']]);
-                return $this->apiResponse(null , true, 'Meal updated successfully', Response::HTTP_OK);
-            }
+            $this->checkRowExists($meal, $menu);
 
             $this->checkUniqCategory($meal, $menu);
             $this->checkMainMealAfectImage($meal, $menu);
 
             $meal->menus()->attach($menu, ['quantity' => $data['quantity']]);
-            return $this->apiResponse(null , true, 'Meal added to menu successfully', Response::HTTP_CREATED);
+
+
+            return $this->apiResponse(new MenuResource($menu)  , true, 'Meal added to menu successfully', Response::HTTP_CREATED);
 
         }catch (\Exception $e) {
             return $this->handleException($e);
@@ -103,9 +101,8 @@ class MealMenuController extends Controller
 
     private function checkRowExists($meal, $menu) {
 
-        if($meal->menus()->where('menu_id', $menu->id)->exists()) return true;
-        return false;
-
+        if($meal->menus()->where('menu_id', $menu->id)->exists())
+        throw new \Exception('SYSTEM_CLIENT_ERROR : Meal already exists in menu' , 400);
     }
 
     private function checkMainMealAfectImage($meal, $menu){

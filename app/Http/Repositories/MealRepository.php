@@ -5,6 +5,7 @@ use App\Models\User;
 use App\Models\Category;
 use App\Helpers\Auth\AuthHelper;
 use App\Helpers\Media\MediaHelper;
+use Illuminate\Support\Facades\DB;
 use App\Http\Resources\MealResource;
 use App\Http\Interfaces\Repository\MealRepositoryInterface;
 
@@ -38,8 +39,10 @@ class MealRepository implements MealRepositoryInterface{
 
     public function clear()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         $this->checkEmpty();
         Meal::truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 
 

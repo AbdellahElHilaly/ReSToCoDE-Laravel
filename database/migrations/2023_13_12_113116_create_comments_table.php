@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('body');
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('menu_id');
+            $table->unsignedBigInteger('menu_id')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('menu_id')->references('id')->on('menus');
+            $table->foreign('menu_id')->references('id')->on('menus')->onDelete('set null');
         });
     }
 
