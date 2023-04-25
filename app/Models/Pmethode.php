@@ -15,5 +15,4 @@ class Pmethode extends Model
     {
         return $this->hasMany(Permission::class);
     }
-
 }

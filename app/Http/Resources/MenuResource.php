@@ -16,8 +16,10 @@ class MenuResource extends JsonResource
 
         // get quantity from pivot table
 
+
         if (strpos($request->route()->getName(), 'MealMenu') !== false)
             return [
+                'id' => $this->id,
                 'name' => $this->name,
                 'description' => $this->description,
                 'mealsNumber' => $this->meals->count(),
@@ -38,7 +40,6 @@ class MenuResource extends JsonResource
             'meals' => MealResource::collection($this->meals),
             'comments' => CommentResource::collection($this->comments),
             'feedbacks' => FeedBackResource::collection($this->feedbacks),
-            'test' => $request->route()->getName(),
         ];
     }
 

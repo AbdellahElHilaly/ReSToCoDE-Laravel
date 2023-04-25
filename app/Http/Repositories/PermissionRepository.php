@@ -24,22 +24,38 @@ class PermissionRepository implements PermissionRepositoryInterface{
 
             $permissions = [];
             foreach ($pmethode_ids as $pmethode_id) {
+                if ($this->rowAlredyExist($user_id, $pcontroller_id, $pmethode_id)) {
+                    continue;
+                }
                 $permissions[] = [
                     'user_id' => $user_id,
                     'pcontroller_id' => $pcontroller_id,
-                    'pmethode_id' => $pmethode_id
+                    'pmethode_id' => $pmethode_id,
                 ];
-            }
 
+            }
 
             $permissions = Permission::insert($permissions);
 
             //get permissions have user_id = $user_id
-
             $permissions = Permission::with('user', 'pcontroller', 'pmethode')->where('user_id', $user_id)->get();
 
             return PermissionResource::collection($permissions);
 
+        }
+
+        // check if row alredy exist
+        private function rowAlredyExist($user_id, $pcontroller_id, $pmethode_id)
+        {
+            $permission = Permission::where('user_id', $user_id)
+                ->where('pcontroller_id', $pcontroller_id)
+                ->where('pmethode_id', $pmethode_id)
+                ->first();
+
+            if ($permission) {
+                return true;
+            }
+            return false;
         }
 
 }

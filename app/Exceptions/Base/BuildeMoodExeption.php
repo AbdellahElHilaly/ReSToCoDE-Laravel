@@ -51,7 +51,8 @@ trait BuildeMoodExeption
             case $e instanceof PostTooLargeException:
                 return $this->apiResponse(null, false, 'The uploaded file is too large.', Response::HTTP_REQUEST_ENTITY_TOO_LARGE);
             case $e instanceof \Exception && strpos($e->getMessage(), 'SYSTEM_CLIENT_ERROR') === 0 :
-                return $this->apiResponse(null, false, $e->getMessage() , Response::HTTP_UNAUTHORIZED);
+                $code = $e->getCode() ? $e->getCode() : Response::HTTP_INTERNAL_SERVER_ERROR;
+                return $this->apiResponse(NULL ,  false, $message , $code);
             default:
                 return $this->apiResponse(null, false, 'An unexpected error occurred.', Response::HTTP_INTERNAL_SERVER_ERROR);
         }

@@ -65,8 +65,8 @@ class AuthController extends Controller
             $mail = new RegisterVerification($attributes , $mailCode);
             $mail->sendMail();
 
-
             return $this->apiResponse($user , true, 'Successfully registered , please check your email to verify your account', Response::HTTP_CREATED);
+
         } catch (\Exception $e) {
             return $this->handleException($e);
         }

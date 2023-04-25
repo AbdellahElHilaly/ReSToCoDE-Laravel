@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\FeedBackController;
 use App\Http\Controllers\Api\MealMenuController;
 use App\Http\Controllers\API\PermissionController;
+use App\Http\Controllers\Api\ReservationController;
 
 
 
@@ -27,11 +28,17 @@ Route::apiResource('menus', MenuController::class);
 Route::apiResource('mealsmenus', MealMenuController::class);
 Route::apiResource('comments', CommentController::class);
 Route::apiResource('feedBacks', FeedBackController::class);
+Route::apiResource('reservations', ReservationController::class);
+
+// Route::apiResource('permissions', PermissionController::class); add prefix to route "auth"
+
+Route::group(['prefix' => 'auth'], function () {
+    Route::apiResource('permissions', PermissionController::class);
+});
 
 
-Route::apiResource('permissions', PermissionController::class);
-
-
+// i want to create model Reservation with migration and api resource controller
+// php artisan make:model Reservation -mcr
 
 
 

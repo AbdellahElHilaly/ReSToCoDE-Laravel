@@ -16,17 +16,14 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('pcontroller_id');
             $table->unsignedBigInteger('pmethode_id');
-
             $table->timestamps();
-
 
             $table->foreign('pcontroller_id')->references('id')->on('pcontrollers');
             $table->foreign('pmethode_id')->references('id')->on('pmethodes');
             $table->foreign('user_id')->references('id')->on('users');
 
             // don't repeat yourself (row) unique
-            $table->unique(['user_id', 'pcontroller_id', 'pmethode_id']);
-
+            // $table->unique(['user_id', 'pcontroller_id', 'pmethode_id']);
         });
     }
 

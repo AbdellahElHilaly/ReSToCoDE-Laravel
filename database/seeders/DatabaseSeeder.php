@@ -18,7 +18,8 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
 
-
+            RulesSeeders::class,
+            
             CategorySeeder::class,
 
             StaticPermissionsData::class,

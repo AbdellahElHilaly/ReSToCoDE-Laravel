@@ -1,15 +1,11 @@
 <?php
 namespace App\Http\Interfaces\Repository;
 
-interface MenuRepositoryInterface
+interface ReservationRepositoryInterface
 {
     public function all();
     public function show($id);
-    public function showToday();
-    public function clear();
     public function store($atributes);
     public function destroy($id);
-    public function update($id , $atributes);
-    public function listByUser($userId);
 }
 

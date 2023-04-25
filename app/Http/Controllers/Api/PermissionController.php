@@ -23,7 +23,16 @@ class PermissionController extends Controller
 
     public function __construct(PermissionRepositoryInterface $permissionRepository)
     {
-        $this->permissionRepository = $permissionRepository;
+        try{
+            // $this->middleware('auth');
+            // $this->middleware('account.verified');
+            // $this->middleware('permission');
+            $this->permissionRepository = $permissionRepository;
+
+        }catch (\Exception $e) {
+            return $this->handleException($e);
+        }
+
     }
 
     public function index()

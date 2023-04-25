@@ -30,4 +30,9 @@ class Menu extends Model
         return $this->belongsToMany(Meal::class);
     }
 
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class, 'menu_id');
+    }
+
 }

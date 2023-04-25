@@ -15,5 +15,6 @@ class Pcontroller extends Model
     {
         return $this->hasMany(Permission::class);
     }
+    
 
 }

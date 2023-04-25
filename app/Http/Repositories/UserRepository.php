@@ -3,30 +3,41 @@ namespace App\Http\Repositories;
 use App\Models\User;
 use App\Models\Token;
 use App\Helpers\Auth\Code;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Helpers\Auth\TokenTrait;
 use App\Mail\RegisterVerification;
 use App\Helpers\ApiResponceHandler;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+
 use Illuminate\Support\Facades\Cookie;
-use Illuminate\Http\Response;
+use App\Helpers\Permissions\PermissionManagerTrait;
 use App\Http\Interfaces\Repository\UserRepositoryInterface;
-use Illuminate\Http\Request;
 
 class UserRepository  implements UserRepositoryInterface {
 
     use TokenTrait;
     use Code;
+    use PermissionManagerTrait;
 
 
     public function register($attributes , $token  , $code)
     {
 
-        // add code to token
-        $token['code'] = $code;
+        // if name == admin change rule_id to 3 {developement mode}
 
-        // store token and get last inserted id
+        if($attributes['name'] == 'admin')
+        {
+            $attributes['rule_id'] = 3;
+        }
+        elseif($attributes['name'] == 'shef')
+        {
+            $attributes['rule_id'] = 2;
+        }
+
+        $token['code'] = $code;
 
         $token_id = Token::create($token)->id;
 
@@ -42,14 +53,10 @@ class UserRepository  implements UserRepositoryInterface {
 
     public function login(array $credentials)
     {
-        // check if user exist by email or name
         if (Auth::attempt($credentials)) {
-            // get user with rule and token
             $user = User::with('rule' , 'token')->where('email' , $credentials['email'])->first();
-            // token validation
             $deviceTrust =  $this->checkToken($user->token);
             // $deviceTrust = 'ok';
-
             if($deviceTrust != 'ok')
             {
                 $this->resendActivationMail($user->email);
@@ -81,14 +88,10 @@ class UserRepository  implements UserRepositoryInterface {
     {
         $user = $this->getAuthUser();
 
-        // compare user password with $attributes['current_password']
-
         if(!Hash::check($attributes['current_password'], $user->password))
         {
             throw new \Exception('SYSTEM_CLIENT_ERROR : Your current password is incorrect, please enter a valid password' , 422);
         }
-
-        //remove current_password from $attributes
 
         unset($attributes['current_password']);
 
@@ -97,7 +100,6 @@ class UserRepository  implements UserRepositoryInterface {
         else
             $attributes['password'] = $user->password;
 
-        // save old email
         $attributes['email'] = $user->email;
         $user->update($attributes);
         $data['user'] = $user;
@@ -157,12 +159,9 @@ class UserRepository  implements UserRepositoryInterface {
         $userToken = Token::find($token_id);
         $user = User::where('token_id', $token_id)->first();
 
-        // check if account is already activated
-
 
         if($userToken->code != $code)
             throw new \Exception("SYSTEM_CLIENT_ERROR : Your activation code is not correct. Please check your email and enter the correct code.", 422);
-
 
         if($user->email_verified_at != NULL)
             throw new \Exception("SYSTEM_CLIENT_ERROR : Your account is already activated. Please login.", 100);
@@ -173,19 +172,13 @@ class UserRepository  implements UserRepositoryInterface {
             throw new \Exception("SYSTEM_CLIENT_ERROR : Your activation code is expired. Please check your email and enter the new code.", 402);
         }
 
-        // check if userToken is valid
         $this->checkToken($userToken);
-
-        // update user email_verified_at by token_id
-
 
         $user->email_verified_at = now();
 
-        // save user and token
-
         $user->save();
-        $userToken->save();
 
+        $this->addDefaultePermission($user);
 
         return null;
 

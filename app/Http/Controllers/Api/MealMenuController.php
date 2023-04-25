@@ -36,7 +36,12 @@ class MealMenuController extends Controller
 
     public function index()
     {
-        return response("Hello");
+        try {
+            $menus = Menu::all();
+            return $this->apiResponse(MenuResource::collection($menus)  , true, 'Menus retrieved successfully', Response::HTTP_OK);
+        }catch (\Exception $e) {
+            return $this->handleException($e);
+        }
     }
 
     public function store(MealMenuStoreRequest $request)
@@ -47,9 +52,14 @@ class MealMenuController extends Controller
             $meal = Meal::findOrfail($data['meal_id']);
             $menu = Menu::findOrfail($data['menu_id']);
 
-            $this->checkRowExists($meal, $menu);
+            if($this->rowAlredyExists($meal, $menu)){
+                $this->updateQuantity($meal, $menu, $data['quantity']);
+                return $this->apiResponse(new MenuResource($menu)  , true, 'Meal quantity updated successfully', Response::HTTP_OK);
+            }
 
-            $this->checkUniqCategory($meal, $menu);
+            if($this->categoryAlredyExist($meal, $menu))
+                return $this->apiResponse(null  , false, 'Meal category already exist in menu', Response::HTTP_BAD_REQUEST);
+
             $this->checkMainMealAfectImage($meal, $menu);
 
             $meal->menus()->attach($menu, ['quantity' => $data['quantity']]);
@@ -74,8 +84,8 @@ class MealMenuController extends Controller
             $meal = Meal::findOrfail($meal_id);
             $menu = Menu::findOrfail($menu_id);
 
-            if($this->checkRowExists($meal, $menu)){
-                throw new \Exception("Meal not found in menu");
+            if(!$this->rowAlredyExists($meal, $menu)){
+                return $this->apiResponse(null  , true, 'Meal not found in menu', Response::HTTP_BAD_REQUEST);
             }
 
             $meal->menus()->detach($menu);
@@ -88,21 +98,20 @@ class MealMenuController extends Controller
 
 
 
-    private function checkUniqCategory($meal, $menu) {
+    private function categoryAlredyExist($meal, $menu) {
         // get all  meals from the menu
         $meals = $menu->meals()->get();
         // check if the meal category is already in the menu
         foreach($meals as $m) {
-            if($m->category_id == $meal->category_id) {
-                throw new \Exception("Meal category already exists in menu");
-            }
+            if($m->category_id == $meal->category_id)
+                return true;
         }
+
+        return false;
     }
 
-    private function checkRowExists($meal, $menu) {
-
-        if($meal->menus()->where('menu_id', $menu->id)->exists())
-        throw new \Exception('SYSTEM_CLIENT_ERROR : Meal already exists in menu' , 400);
+    private function rowAlredyExists($meal, $menu) {
+        return $meal->menus()->where('menu_id', $menu->id)->exists();
     }
 
     private function checkMainMealAfectImage($meal, $menu){
@@ -110,6 +119,11 @@ class MealMenuController extends Controller
             $menu->image = $meal->image;
             $menu->save();
         }
+    }
+
+
+    private function updateQuantity($meal, $menu, $quantity) {
+        $meal->menus()->updateExistingPivot($menu, ['quantity' => $quantity]);
     }
 
 

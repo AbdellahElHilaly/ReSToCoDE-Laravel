@@ -86,7 +86,7 @@ class MealRepository implements MealRepositoryInterface{
 
     public function checkEmpty(){
         if (Meal::count() === 0) {
-            throw new \Exception('SYSTEM ERROR: Meal table is already empty');
+            throw new \Exception('SYSTEM_CLIENT_ERROR : Meal table is already empty');
         }
     }
 

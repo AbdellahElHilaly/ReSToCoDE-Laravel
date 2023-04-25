@@ -203,6 +203,7 @@ return [
         App\Providers\UserRepositoryServiceProvider::class,
         App\Providers\GameRepositoryServiceProvider::class,
         App\Providers\PermissionRepositoryServiceProvider::class,
+        App\Providers\ReservationRepositoryServiceProvider::class,
 
         CloudinaryLabs\CloudinaryLaravel\CloudinaryServiceProvider::class,
     ],

@@ -79,8 +79,13 @@ class MenuRepository implements MenuRepositoryInterface{
 
     public function checkEmpty(){
         if (Menu::count() === 0) {
-            throw new \Exception('SYSTEM ERROR: Menu table is already empty');
+            throw new \Exception('SYSTEM_CLIENT_ERROR : Menu table is already empty');
         }
+    }
+
+    public function showToday(){
+        $menus = Menu::whereDate('date', date('Y-m-d'))->get();
+        return MenuResource::collection($menus);
     }
 
 }

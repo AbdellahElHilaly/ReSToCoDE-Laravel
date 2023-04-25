@@ -97,7 +97,8 @@ trait DeveMoodExeption
             case $e instanceof \Exception && strpos($e->getMessage(), 'SYSTEM_CLIENT_ERROR') === 0 :
                 // remove the SYSTEM_CLIENT_ERROR from the message
                 $message = substr($e->getMessage(), strlen('SYSTEM_CLIENT_ERROR :'));
-                return $this->apiResponse(NULL ,  false, $message , $e->getCode());
+                $code = $e->getCode() ? $e->getCode() : Response::HTTP_INTERNAL_SERVER_ERROR;
+                return $this->apiResponse(NULL ,  false, $message , $code);
             default:
                 return $this->apiResponse($this->handelMessage($e) , false, 'An unexpected error occurred :  ', Response::HTTP_INTERNAL_SERVER_ERROR);
         }

@@ -12,6 +12,7 @@ class MealResource extends JsonResource
 
         if (strpos($request->route()->getName(), 'menus') !== false)
             return [
+                'id' => $this->id,
                 'name' => $this->name,
                 'category' => $this->category->name,
                 'image' => $this->image,

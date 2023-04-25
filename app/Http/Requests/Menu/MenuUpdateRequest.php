@@ -24,9 +24,9 @@ class MenuUpdateRequest extends FormRequest
             ],
         ];
 
-        if($this->timeLate()) {
-            $rules['time'] = 'required';
-        }
+        // if($this->timeLate()) {
+        //     $rules['time'] = 'required';
+        // }
 
         return $rules;
     }

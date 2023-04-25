@@ -48,7 +48,7 @@ class RegisterVerification extends Mailable implements ShouldQueue
 
     public function sendMail()
     {
-        Mail::send($this);
+        // Mail::send($this);
     }
 
 

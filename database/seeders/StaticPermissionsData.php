@@ -15,40 +15,47 @@ class  StaticPermissionsData extends Seeder
     {
         $pcontrollers = [
                 [
-                    'name' => 'GameController',
-                    'description' => 'this is a game controller the developer can use it to CRUD his games and the users can use it to read the games',
+                    'name' => 'CategoryController',
+                    'description' => 'CategoryController description',
                 ],
                 [
-                    'name' => 'CategoryController',
-                    'description' => 'this is a category controller the admin can use it to CRUD his categories and the developer can use it to CRUD his games',
+                    'name' => 'CommentController',
+                    'description' => 'CommentController description',
                 ],
-        ];
+                [
+                    'name' => 'FeedBackController',
+                    'description' => 'FeedBackController description',
+                ],
+                [
+                    'name' => 'MealController',
+                    'description' => 'MealController description',
+                ],
+                [
+                    'name' => 'MealMenuController',
+                    'description' => 'MealMenuController description',
+                ],
+                [
+                    'name' => 'MenuController',
+                    'description' => 'MenuController description',
+                ],
+                [
+                    'name' => 'PermissionController',
+                    'description' => 'PermissionController description',
+                ],
+                [
+                    'name' => 'ReservationController',
+                    'description' => 'ReservationController description',
+                ],
+
+
+
+            ];
 
         foreach ($pcontrollers as $pcontroller) {
             Pcontroller::create($pcontroller);
         }
 
 
-        $rules = [
-            [
-                'name' => 'geust',
-                'description' => 'this is a geust rule the geust can use it to read all models',
-            ],
-            [
-                'name' => 'developer',
-                'description' => 'this is a developer rule the developer can use it to CRUD his models and read all models',
-            ],
-            [
-                'name' => 'admin',
-                'description' => 'this is a admin rule the admin can use it to CRUD all categories and CRUD all permissions',
-            ],
-
-
-        ];
-
-        foreach ($rules as $rule) {
-            Rule::create($rule);
-        }
 
 
 
@@ -85,16 +92,7 @@ class  StaticPermissionsData extends Seeder
         foreach ($pmethodes as $pmethode) {
             Pmethode::create($pmethode);
         }
-
-
         
-
-
-
-
-
-
-
     }
 
 }

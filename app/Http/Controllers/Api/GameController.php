@@ -22,8 +22,8 @@ class GameController extends Controller
     {
         try{
 
-            $this->middleware('auth');
-            $this->middleware('account.verified');
+            // $this->middleware('auth');
+            // $this->middleware('account.verified');
             // $this->middleware('permission');
             $this->gameRepository = $gameRepository;
 

@@ -78,7 +78,7 @@ class UsersTableSeeder extends Seeder
             'browser' => 'Postman Desktop',
             'expires_at' => '2028-05-01 00:00:00',
             'location' => 'ZZ -  - ',
-            'network' => 'BBIL-AP - 96.0.0.0/3 - http://www.Airtel.in',
+            'network' => 'no data',
             'code' => '12345',
         ];
         Token::create($token);

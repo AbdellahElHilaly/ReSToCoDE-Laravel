@@ -39,7 +39,6 @@ class MenuController extends Controller
 
     public function index()
     {
-
         try {
             $menus  = $this->menuRepository->all();
             if($menus->count()==0)return $this->apiResponse($menus, true ,"No Menus found !" ,Response::HTTP_NOT_FOUND);
@@ -68,6 +67,14 @@ class MenuController extends Controller
     public function show(string $id)
     {
         try {
+            if (strpos($id, 'today') === 0) {
+                $menu = $this->menuRepository->showToday();
+                if($menu->count()==0) {
+                    return $this->apiResponse($menu, false, "No Menu were found for today.", Response::HTTP_NOT_FOUND);
+                } else {
+                    return $this->apiResponse($menu, true, "Successfully retrieved " . $menu->count() . " Menu for today.", Response::HTTP_OK);
+                }
+            }
             if (strpos($id, 'category=') === 0) {
                 $categoryId = substr($id, strlen('category='));
                 $menu  = $this->menuRepository->listByCategory($categoryId)['Menus'];
