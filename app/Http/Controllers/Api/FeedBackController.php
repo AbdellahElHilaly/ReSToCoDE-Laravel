@@ -25,9 +25,11 @@ class FeedBackController extends Controller
     public function __construct(FeedBackRepositoryInterface $feedBackRepository)
     {
         try{
-            // $this->middleware('auth');
-            // $this->middleware('account.verified');
-            // $this->middleware('permission');
+            $this->middleware('auth');
+            $this->middleware('account.verified');
+            $this->middleware('permission');
+            $this->middleware('device.trust');
+            
             $this->feedBackRepository = $feedBackRepository;
 
         }catch (\Exception $e) {

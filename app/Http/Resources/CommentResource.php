@@ -11,6 +11,7 @@ class CommentResource extends JsonResource
     public function toArray($request){
 
         if (strpos($request->route()->getName(), 'menus') !== false)
+       
             return [
                 'id' => $this->id,
                 'user' => $this->user->name,

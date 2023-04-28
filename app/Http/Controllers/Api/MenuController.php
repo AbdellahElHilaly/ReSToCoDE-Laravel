@@ -25,9 +25,11 @@ class MenuController extends Controller
     public function __construct(MenuRepositoryInterface $menuRepository)
     {
         try{
-            // $this->middleware('auth');
-            // $this->middleware('account.verified');
-            // $this->middleware('permission');
+            $this->middleware('auth'); // url of middleware :: app\Http\Middleware\Authenticate.php
+            $this->middleware('account.verified');
+            $this->middleware('permission');
+            $this->middleware('device.trust');
+            
             $this->menuRepository = $menuRepository;
 
         }catch (\Exception $e) {
@@ -85,15 +87,15 @@ class MenuController extends Controller
                     $menuCount = $menu->count();
                     return $this->apiResponse($menu, true, "Successfully retrieved ".$menuCount." Menu(s) for the [ ".$categoryName." ] category.", Response::HTTP_OK);
                 }
-            }elseif(strpos($id, 'developer=') === 0){
-                $developerId = substr($id, strlen('developer='));
-                $menu  = $this->menuRepository->listByUser($developerId)['Menus'];
-                $developerName = $this->menuRepository->listByUser($developerId)['userName'];
+            }elseif(strpos($id, 'shef=') === 0){
+                $shefId = substr($id, strlen('shef='));
+                $menu  = $this->menuRepository->listByUser($shefId)['Menus'];
+                $shefName = $this->menuRepository->listByUser($shefId)['userName'];
                 if($menu->count()==0) {
-                    return $this->apiResponse($menu, false, "No Menu were found for the [ ".$developerName." ] developer.", Response::HTTP_NOT_FOUND);
+                    return $this->apiResponse($menu, false, "No Menu were found for the [ ".$shefName." ] shef.", Response::HTTP_NOT_FOUND);
                 } else {
                     $menuCount = $menu->count();
-                    return $this->apiResponse($menu, true, "Successfully retrieved ".$menuCount." Menu(s) for the [ ".$developerName." ] developer.", Response::HTTP_OK);
+                    return $this->apiResponse($menu, true, "Successfully retrieved ".$menuCount." Menu(s) for the [ ".$shefName." ] shef.", Response::HTTP_OK);
                 }
             }
             $menu  = $this->menuRepository->show($id);

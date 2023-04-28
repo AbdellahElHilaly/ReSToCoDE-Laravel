@@ -25,9 +25,12 @@ class MealController extends Controller
     public function __construct(MealRepositoryInterface $mealRepository)
     {
         try{
-            // $this->middleware('auth');
-            // $this->middleware('account.verified');
-            // $this->middleware('permission');
+            
+            $this->middleware('auth');
+            $this->middleware('account.verified');
+            $this->middleware('permission');
+            $this->middleware('device.trust');
+
             $this->mealRepository = $mealRepository;
 
         }catch (\Exception $e) {

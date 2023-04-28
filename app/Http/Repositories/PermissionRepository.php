@@ -44,6 +44,14 @@ class PermissionRepository implements PermissionRepositoryInterface{
 
         }
 
+        public function destroy($id)
+        {
+            $permission = Permission::findOrfail($id);
+            $permission->delete();
+        }
+
+
+
         // check if row alredy exist
         private function rowAlredyExist($user_id, $pcontroller_id, $pmethode_id)
         {

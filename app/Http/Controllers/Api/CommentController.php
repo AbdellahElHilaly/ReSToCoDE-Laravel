@@ -25,9 +25,11 @@ class CommentController extends Controller
     public function __construct(CommentRepositoryInterface $commentRepository)
     {
         try{
-            // $this->middleware('auth');
-            // $this->middleware('account.verified');
-            // $this->middleware('permission');
+            $this->middleware('auth');
+            $this->middleware('account.verified');
+            $this->middleware('permission');
+            $this->middleware('device.trust');
+            
             $this->commentRepository = $commentRepository;
 
         }catch (\Exception $e) {

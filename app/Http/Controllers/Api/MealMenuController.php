@@ -23,9 +23,10 @@ class MealMenuController extends Controller
     public function __construct()
     {
         try{
-            // $this->middleware('auth');
-            // $this->middleware('account.verified');
-            // $this->middleware('permission');
+            $this->middleware('auth');
+            $this->middleware('account.verified');
+            $this->middleware('permission');
+            $this->middleware('device.trust');
 
         }catch (\Exception $e) {
             return $this->handleException($e);

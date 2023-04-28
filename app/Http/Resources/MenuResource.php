@@ -40,7 +40,30 @@ class MenuResource extends JsonResource
             'meals' => MealResource::collection($this->meals),
             'comments' => CommentResource::collection($this->comments),
             'feedbacks' => FeedBackResource::collection($this->feedbacks),
+            'statistics' => [
+                'comments' => $this->comments->count(),
+                'lastComment' => $this->comments->last()->user->name ?? 'No comments',
+                'feedbacks' => $this->feedbacks->count(),
+                'feedback' => $this->feedback_avg($this->feedbacks),
+                'reservations' => $this->reservations->count(),
+                'lastFeedback' => $this->feedbacks->last()->user->name ?? 'No feedbacks',
+                'commentsAverage' => $this->comments->count() / ($this->reservations->count() == 0 ? 1 : $this->reservations->count()),
+                'feedbacksAverage' => $this->feedbacks->count() / ($this->reservations->count() == 0 ? 1 : $this->reservations->count()),
+            ],
         ];
+    }
+
+
+    private function feedback_avg($feedbacks)
+    {
+        if ($feedbacks->count() == 0) return 0;
+        $sum = 0;
+        foreach ($feedbacks as $feedback) {
+            $sum += $feedback->body;
+        }
+        $sum = $sum / $feedbacks->count();
+        return number_format((float)$sum, 2, '.', '');
+
     }
 
 }

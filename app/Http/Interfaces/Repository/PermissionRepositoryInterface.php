@@ -9,6 +9,6 @@ interface PermissionRepositoryInterface
 
     public function getPermissions();
     public function store($attributes);
-
+    public function destroy($id);
 
 }

@@ -19,22 +19,22 @@ class DatabaseSeeder extends Seeder
         $this->call([
 
             RulesSeeders::class,
-            
+
             CategorySeeder::class,
 
             StaticPermissionsData::class,
 
-            UsersTableSeeder::class,
+            // UsersTableSeeder::class,
 
-            MenuSeeder::class,
+            // MenuSeeder::class,
 
-            MealSeeder::class,
+            // MealSeeder::class,
 
-            FeedBackSeeder::class,
+            // FeedBackSeeder::class,
 
-            CommentSeeder::class,
+            // CommentSeeder::class,
 
-            MealMenuSeeder::class,
+            // MealMenuSeeder::class,
 
         ]);
     }

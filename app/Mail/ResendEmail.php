@@ -10,7 +10,7 @@ use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
 
-class RegisterVerification extends Mailable implements ShouldQueue
+class ResendEmail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -18,7 +18,11 @@ class RegisterVerification extends Mailable implements ShouldQueue
     public $sendTo;
     public $clientName;
 
-    
+    /**
+     * Create a new message instance.
+     *
+     * @return void
+     */
     public function __construct($user , $verificationCode)
     {
         $this->verificationCode = $verificationCode;
@@ -32,13 +36,15 @@ class RegisterVerification extends Mailable implements ShouldQueue
     {
         return $this->from('abdellah.elhilaly.96@gmail.com', 'You Code')
                     ->to($this->sendTo, $this->clientName)
-                    ->subject('Activate your account')
-                    ->view('Mails.registerVerification')
+                    ->subject('Resend your verification code')
+                    ->view('Mails.ResendEmail')
                     ->with([
                         'verificationCode' => $this->verificationCode,
                         'link' => 'http://localhost:8000/verify/' . $this->verificationCode,
                     ]);
     }
+
+
 
     public function sendMail()
     {

@@ -24,9 +24,11 @@ class PermissionController extends Controller
     public function __construct(PermissionRepositoryInterface $permissionRepository)
     {
         try{
-            // $this->middleware('auth');
-            // $this->middleware('account.verified');
-            // $this->middleware('permission');
+            $this->middleware('auth');
+            $this->middleware('account.verified');
+            $this->middleware('permission');
+            $this->middleware('device.trust');
+            
             $this->permissionRepository = $permissionRepository;
 
         }catch (\Exception $e) {
@@ -71,9 +73,14 @@ class PermissionController extends Controller
     }
 
 
-    public function destroy(Permission $permission)
+    public function destroy(string $id)
     {
-        //
+        try {
+            $permission = $this->permissionRepository->destroy($id);
+            return $this->apiResponse($permission, true, "Permission deleted successfully" , Response::HTTP_OK);
+        } catch (\Exception $e) {
+            return $this->handleException($e);
+        }
     }
 
 }

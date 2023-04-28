@@ -2,6 +2,7 @@
 namespace App\Http\Repositories;
 use App\Models\User;
 use App\Models\Token;
+use App\Mail\ResendEmail;
 use App\Helpers\Auth\Code;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -10,15 +11,15 @@ use App\Mail\RegisterVerification;
 use App\Helpers\ApiResponceHandler;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cookie;
 use App\Helpers\Permissions\PermissionManagerTrait;
 use App\Http\Interfaces\Repository\UserRepositoryInterface;
 
 class UserRepository  implements UserRepositoryInterface {
 
-    use TokenTrait;
+        use TokenTrait;
     use Code;
     use PermissionManagerTrait;
 
@@ -32,6 +33,7 @@ class UserRepository  implements UserRepositoryInterface {
         {
             $attributes['rule_id'] = 3;
         }
+
         elseif($attributes['name'] == 'shef')
         {
             $attributes['rule_id'] = 2;
@@ -40,7 +42,6 @@ class UserRepository  implements UserRepositoryInterface {
         $token['code'] = $code;
 
         $token_id = Token::create($token)->id;
-
 
         $attributes['password'] = Hash::make($attributes['password']);
         $attributes['token_id'] = $token_id;
@@ -120,14 +121,6 @@ class UserRepository  implements UserRepositoryInterface {
         $data['token'] = Auth::login($user);
         return new UserResource($data);
     }
-
-
-    public function myGames()
-    {
-        $user = Auth::user();
-        return $user->games()->get();
-    }
-
 
     public function deleteProfile()
     {
@@ -289,12 +282,10 @@ class UserRepository  implements UserRepositoryInterface {
         $userToken->save();
 
         $mailCode = $this->generateMailCode($token_id , $code);
-        $mail = new RegisterVerification($user , $mailCode);
+        $mail = new ResendEmail($user , $mailCode);
         $mail->sendMail();
 
     }
-
-
 
 
 }

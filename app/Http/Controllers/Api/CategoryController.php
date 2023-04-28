@@ -21,9 +21,10 @@ class CategoryController extends Controller
 
     public function __construct(CateroyRepositoryInterface $categoryRepository)
     {
-        // $this->middleware('auth');
-        // $this->middleware('account.verified');
-        // $this->middleware('permission');
+        $this->middleware('auth');
+        $this->middleware('account.verified');
+        $this->middleware('permission');
+        $this->middleware('device.trust');
 
         $this->categoryRepository = $categoryRepository;
     }

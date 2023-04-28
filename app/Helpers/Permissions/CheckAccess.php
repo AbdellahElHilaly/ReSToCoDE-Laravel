@@ -5,34 +5,7 @@ namespace App\Helpers\Permissions;
 trait CheckAccess {
 
 
-
-    /*
-    "result": {
-        "user": "abdellah",
-        "rule": "admin",
-        "p_request": {
-            "controller": "GameController",
-            "method": "show",
-            "find_by": "auth"
-        },
-        "p_access": {
-            "GameController": [
-                "index",
-                "show",
-                "destroy"
-            ],
-            "CategoryController": [
-                "index",
-                "show",
-                "store",
-                "update",
-                "destroy"
-            ]
-        }
-    }
-
-    */
-
+    // check if p_request is in p_access
     public function AccessVerified($result){
 
         $controller = $result['p_request']['controller'];
@@ -51,7 +24,7 @@ trait CheckAccess {
 
     }
 
-    // if "find_by": "auth" the user shoulde be a developer
+    // if "find_by": "auth" the user shoulde be a shef
 
     public function findByVirefied($result){
 
@@ -59,7 +32,7 @@ trait CheckAccess {
         $rule = $result['rule'];
 
         if ($find_by_requested == 'auth') {
-            if ($rule == 'developer') {
+            if ($rule == 'shef') {
                 return true;
             }
 

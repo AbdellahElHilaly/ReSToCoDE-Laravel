@@ -22,9 +22,11 @@ class GameController extends Controller
     {
         try{
 
-            // $this->middleware('auth');
-            // $this->middleware('account.verified');
-            // $this->middleware('permission');
+            $this->middleware('auth');
+            $this->middleware('account.verified');
+            $this->middleware('permission');
+            $this->middleware('device.trust');
+            
             $this->gameRepository = $gameRepository;
 
         }catch (\Exception $e) {

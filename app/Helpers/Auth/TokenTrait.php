@@ -11,23 +11,6 @@ Trait  TokenTrait
     public function tokenValidated($token){
         $currentToken = $this->generateToken();
 
-        /*
-        this is the token :
-
-            "ip": "127.0.0.1",
-            "device": "",
-            "platform": "UNK",
-            "browser": "Postman Desktop",
-            "expires_at": 1679418098,
-            "location": {
-                "country": "ZZ",
-                "region": "",
-                "city": ""
-            },
-            "network": "no data"
-
-         */
-
         // 1 - check if token is not empty
         if(empty($token)) return false;
 
@@ -42,10 +25,6 @@ Trait  TokenTrait
 
         if($token == $currentToken) return true;
 
-
-
-
-
     }
 
     public function generateToken()
@@ -55,29 +34,14 @@ Trait  TokenTrait
         $device = $dd->getDeviceName();
         $platform = $dd->getOs('name');
         $browser = $dd->getClient('name');
-        $ip = request()->ip();
-        // $ip = '197.230.213.189'; test real ip
-        $key = 'at_YSyNBFSsynfsRc9G6Z7nVz5Rd6Y8l';
+        // $ip = request()->ip();
+        $ip = '197.230.213.189';
 
-        $expiresAt =now()->addMinutes(5);
+        $location = $this->getLocationINfo($ip);
+        // $network = $this->getNetworkInfo($ip);
+        $network = 'ASMedi - 197.230.192.0/18 - orange.ma - MEDITELECOM';
 
-        $client = new Client();
-        $url = 'https://geo.ipify.org/api/v2/country,city,vpn?apiKey='.$key.'&ipAddress='.$ip; // rest api service url
-        $response = $client->get($url);
-        $ipInformations = json_decode($response->getBody(), true);
-
-
-        if(isset($ipInformations['location'])){
-            $location = $ipInformations['location']['country'] . ' - ' . $ipInformations['location']['region'] . ' - ' . $ipInformations['location']['city'];
-        }else $location = "no data";
-
-        if(isset($ipInformations['as']))
-
-            $network = $ipInformations['as']['name'] . ' - ' . $ipInformations['as']['route'] . ' - ' . $ipInformations['as']['domain'];
-
-
-        else $network = "no data";
-
+        $expiresAt = now()->addMinutes(10);
 
         $token = [
             'ip' => $ip,
@@ -91,7 +55,6 @@ Trait  TokenTrait
 
         return $token;
     }
-
 
     public function checkToken($userToken){
         $token_id = $userToken->id;
@@ -116,6 +79,29 @@ Trait  TokenTrait
         else if($token['network'] != $userToken['network'])
             $message = $baseMessage1 . "network " . $baseMessage2;
         return $message;
+    }
+
+    private function getLocationINfo($ip){
+
+        $url = 'http://ip-api.com/json/'.$ip;
+
+        $client = new Client();
+        $response = $client->get($url);
+        $response = json_decode($response->getBody(), true);
+        if(!isset($response['timezone']))  return 'local host inknown location';
+        $location = explode('/',$response['timezone'])[0] . ' - ' . $response['country'] . ' - ' . $response['regionName'] . ' - ' . $response['city'];
+        return $location;
+    }
+
+    private function getNetworkInfo($ip){
+        $key = 'at_5L0MCLJR3emxWqlgC84tWwJyWXYnw';
+        $url = 'https://geo.ipify.org/api/v2/country,city,vpn?apiKey='.$key.'&ipAddress='.$ip;
+        $client = new Client();
+        $response = $client->get($url);
+        $response = json_decode($response->getBody(), true);
+        if(!isset($response['as']))  return 'local host inknown network';
+        $network = $response['as']['name'] . ' - ' . $response['as']['route'] . ' - ' . $response['as']['domain'] . ' - ' . $response['isp'];
+        return $network;
     }
 
 }

@@ -12,7 +12,6 @@ interface UserRepositoryInterface
     public function updateProfile($attributes);
     public function getProfile();
     public function deleteProfile();
-    public function myGames();
     public function getAuthUser();
     public function activateAccount($token_id , $code); // for activation
     public function accountVerified(); // for middleware

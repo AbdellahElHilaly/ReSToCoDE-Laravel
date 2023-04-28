@@ -67,6 +67,7 @@ class Kernel extends HttpKernel
         'alredy.auth' =>\App\Http\Middleware\Authentified::class,
         'permission' =>\App\Http\Middleware\Permission::class,
         'account.verified' =>\App\Http\Middleware\AccountVerification::class,
+        'device.trust' =>\App\Http\Middleware\DeviceTrust::class,
     ];
 
 

@@ -24,9 +24,11 @@ class ReservationController extends Controller
     public function __construct(ReservationRepositoryInterface $reservationRepository)
     {
         try{
-            // $this->middleware('auth');
-            // $this->middleware('account.verified');
-            // $this->middleware('permission');
+            $this->middleware('auth');
+            $this->middleware('account.verified');
+            $this->middleware('permission');
+            $this->middleware('device.trust');
+            
             $this->reservationRepository = $reservationRepository;
 
         }catch (\Exception $e) {

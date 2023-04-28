@@ -44,6 +44,7 @@ class MenuRepository implements MenuRepositoryInterface{
     {
         DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         $this->checkEmpty();
+        DB::table('meal_menu')->truncate();
         Menu::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS = 0');
     }
@@ -66,6 +67,10 @@ class MenuRepository implements MenuRepositoryInterface{
 
 
     public function listByUser($userId){
+
+        if($userId === "auth") $userId = $this->getAuthUser()->id;
+        if($this->getAuthUser()->rule_id !==2) throw new \Exception('SYSTEM_CLIENT_ERROR : You are not a shef to see your meals');
+
 
         $user = User::with('Menus')->findOrFail($userId);
         $menus = MenuResource::collection($user->Menus);

@@ -40,6 +40,9 @@ class AuthController extends Controller
         $this->userRepository = $userRepository;
         $this->middleware('auth:api')->except(['register', 'login', 'activateAccount', 'forgotPassword', 'ressetPassword' , 'resendActivationMail' ,'trushDevice']);
         $this->middleware('alredy.auth')->only(['register','login']);
+        $this->middleware('account.verified')->only(['getProfile' , 'editProfile']);
+        $this->middleware('device.trust')->only(['getProfile' , 'editProfile']);
+
     }
 
 
@@ -52,17 +55,16 @@ class AuthController extends Controller
             $token = $this->generateToken();
             $code = $this->generateVerificationCode();
 
-
             $result = $this->userRepository->register($attributes , $token , $code);
 
             $token_id = $result['user']->token_id;
-
 
             $mailCode = $this->generateMailCode($token_id , $code);
 
             $user =  new UserResource($result);
 
             $mail = new RegisterVerification($attributes , $mailCode);
+
             $mail->sendMail();
 
             return $this->apiResponse($user , true, 'Successfully registered , please check your email to verify your account', Response::HTTP_CREATED);
